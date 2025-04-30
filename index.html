@@ -1,507 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Safe Scan - Emergency Medical ID</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            position: relative;
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Medical Bracelet Animation - Responsive */
+      .medical-bracelet {
+        position: fixed;
+        border-radius: 50%;
+        border: 15px solid rgba(102, 126, 234, 0.1);
+        border-top-color: rgba(102, 126, 234, 0.4);
+        border-right-color: rgba(102, 126, 234, 0.3);
+        border-bottom-color: rgba(102, 126, 234, 0.2);
+        animation: rotateBracelet 30s linear infinite;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .medical-bracelet::before {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      }
+
+      .medical-bracelet::after {
+        content: "⚕";
+        position: absolute;
+        font-size: 16px;
+        color: rgba(102, 126, 234, 0.8);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .bracelet-1 {
+        top: -100px;
+        right: -100px;
+        width: 300px;
+        height: 300px;
+        border-width: 15px;
+        animation-duration: 40s;
+        animation-direction: reverse;
+      }
+
+      .bracelet-2 {
+        bottom: -80px;
+        left: -80px;
+        width: 250px;
+        height: 250px;
+        animation-duration: 35s;
+      }
+
+      .bracelet-3 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+        opacity: 0.3;
+        animation-duration: 50s;
+        display: none; /* Hidden on mobile by default */
+      }
+
+      @keyframes rotateBracelet {
+        0% {
+          transform: rotate(0deg);
         }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        100% {
+          transform: rotate(360deg);
         }
-        
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        border: none;
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+      }
+
+      .btn-emergency {
+        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        border: none;
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
+      }
+
+      .btn-emergency:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
+      }
+
+      .medical-info {
+        background-color: rgba(255, 255, 255, 0.98);
+        border-left: 4px solid #667eea;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .emergency-contact {
+        background-color: rgba(255, 255, 255, 0.98);
+        border-left: 4px solid #4facfe;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .user-type-btn {
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .user-type-btn i {
+        margin-right: 12px;
+        font-size: 1.2rem;
+      }
+
+      .location-access {
+        text-align: center;
+        padding: 2rem 1.25rem;
+      }
+
+      .location-access i {
+        font-size: 3.5rem;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .info-label {
+        font-weight: 600;
+        color: #4a5568;
+        display: inline-block;
+        min-width: 120px;
+      }
+
+      .info-value {
+        color: #2d3748;
+        word-break: break-word;
+      }
+
+      .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1rem;
+      }
+
+      .emergency-badge {
+        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+      }
+
+      /* Welcome Screen */
+      .welcome-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .welcome-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Feedback Modal */
+      .feedback-modal {
+        max-width: 450px;
+        width: 100%;
+      }
+
+      .feedback-rating {
+        display: flex;
+        justify-content: center;
+        margin: 1.5rem 0;
+      }
+
+      .rating-star {
+        font-size: 2rem;
+        color: #e2e8f0;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin: 0 0.25rem;
+      }
+
+      .rating-star:hover,
+      .rating-star.active {
+        color: #f59e0b;
+        transform: scale(1.1);
+      }
+
+      .feedback-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        resize: vertical;
+        transition: all 0.3s;
+      }
+
+      .feedback-textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+      }
+
+      /* Feedback Button */
+      .feedback-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        cursor: pointer;
+        z-index: 100;
+        transition: all 0.3s;
+      }
+
+      .feedback-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      /* Responsive adjustments */
+      @media (min-width: 640px) {
         .card {
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            width: calc(100% - 2rem);
-            margin: 1rem auto;
-            position: relative;
-            z-index: 10;
+          max-width: 28rem;
+          margin: 1rem auto;
         }
-        
-        /* Medical Bracelet Animation - Responsive */
-        .medical-bracelet {
-            position: fixed;
-            border-radius: 50%;
-            border: 15px solid rgba(102, 126, 234, 0.1);
-            border-top-color: rgba(102, 126, 234, 0.4);
-            border-right-color: rgba(102, 126, 234, 0.3);
-            border-bottom-color: rgba(102, 126, 234, 0.2);
-            animation: rotateBracelet 30s linear infinite;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.7;
-        }
-        
-        .medical-bracelet::before {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-        }
-        
-        .medical-bracelet::after {
-            content: '⚕';
-            position: absolute;
-            font-size: 16px;
-            color: rgba(102, 126, 234, 0.8);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .bracelet-1 {
-            top: -100px;
-            right: -100px;
-            width: 300px;
-            height: 300px;
-            border-width: 15px;
-            animation-duration: 40s;
-            animation-direction: reverse;
-        }
-        
-        .bracelet-2 {
-            bottom: -80px;
-            left: -80px;
-            width: 250px;
-            height: 250px;
-            animation-duration: 35s;
-        }
-        
-        .bracelet-3 {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            opacity: 0.3;
-            animation-duration: 50s;
-            display: none; /* Hidden on mobile by default */
-        }
-        
-        @keyframes rotateBracelet {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            border: none;
-            color: white;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-        }
-        
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
-        }
-        
-        .btn-emergency {
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
-            border: none;
-            color: white;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
-        }
-        
-        .btn-emergency:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
-        }
-        
-        .medical-info {
-            background-color: rgba(255, 255, 255, 0.98);
-            border-left: 4px solid #667eea;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        
+
+        .medical-info,
         .emergency-contact {
-            background-color: rgba(255, 255, 255, 0.98);
-            border-left: 4px solid #4facfe;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          padding: 1.5rem;
         }
-        
-        .user-type-btn {
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 12px;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .user-type-btn i {
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-        
-        .location-access {
-            text-align: center;
-            padding: 2rem 1.25rem;
-        }
-        
-        .location-access i {
-            font-size: 3.5rem;
-            color: #667eea;
-            margin-bottom: 1.5rem;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .info-label {
-            font-weight: 600;
-            color: #4a5568;
-            display: inline-block;
-            min-width: 120px;
-        }
-        
-        .info-value {
-            color: #2d3748;
-            word-break: break-word;
-        }
-        
+
         .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
+          font-size: 1.25rem;
         }
-        
-        .section-title i {
-            margin-right: 0.5rem;
+
+        .location-access i {
+          font-size: 4.5rem;
         }
-        
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 1rem;
+
+        .info-label {
+          min-width: 140px;
         }
-        
-        .emergency-badge {
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-        
-        /* Welcome Screen */
-        .welcome-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-        
+
         .welcome-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
+          width: 100px;
+          height: 100px;
         }
-        
-        /* Feedback Modal */
-        .feedback-modal {
-            max-width: 450px;
-            width: 100%;
+
+        /* Adjust bracelets for tablets */
+        .bracelet-1 {
+          width: 400px;
+          height: 400px;
+          top: -150px;
+          right: -150px;
         }
-        
-        .feedback-rating {
-            display: flex;
-            justify-content: center;
-            margin: 1.5rem 0;
+
+        .bracelet-2 {
+          width: 350px;
+          height: 350px;
+          bottom: -120px;
+          left: -120px;
         }
-        
-        .rating-star {
-            font-size: 2rem;
-            color: #e2e8f0;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin: 0 0.25rem;
+
+        .medical-bracelet::before {
+          width: 40px;
+          height: 40px;
         }
-        
-        .rating-star:hover,
-        .rating-star.active {
-            color: #f59e0b;
-            transform: scale(1.1);
+
+        .medical-bracelet::after {
+          font-size: 20px;
         }
-        
-        .feedback-textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            resize: vertical;
-            transition: all 0.3s;
+      }
+
+      @media (min-width: 768px) {
+        .card {
+          max-width: 32rem;
         }
-        
-        .feedback-textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+
+        .user-type-btn {
+          padding: 1.25rem;
+          font-size: 1.1rem;
         }
-        
-        /* Feedback Button */
-        .feedback-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            cursor: pointer;
-            z-index: 100;
-            transition: all 0.3s;
+
+        .user-type-btn i {
+          font-size: 1.4rem;
         }
-        
-        .feedback-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+
+        /* Show the third bracelet on larger screens */
+        .bracelet-3 {
+          display: block;
         }
-        
-        /* Responsive adjustments */
-        @media (min-width: 640px) {
-            .card {
-                max-width: 28rem;
-                margin: 1rem auto;
-            }
-            
-            .medical-info, .emergency-contact {
-                padding: 1.5rem;
-            }
-            
-            .section-title {
-                font-size: 1.25rem;
-            }
-            
-            .location-access i {
-                font-size: 4.5rem;
-            }
-            
-            .info-label {
-                min-width: 140px;
-            }
-            
-            .welcome-icon {
-                width: 100px;
-                height: 100px;
-            }
-            
-            /* Adjust bracelets for tablets */
-            .bracelet-1 {
-                width: 400px;
-                height: 400px;
-                top: -150px;
-                right: -150px;
-            }
-            
-            .bracelet-2 {
-                width: 350px;
-                height: 350px;
-                bottom: -120px;
-                left: -120px;
-            }
-            
-            .medical-bracelet::before {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .medical-bracelet::after {
-                font-size: 20px;
-            }
+      }
+
+      @media (min-width: 1024px) {
+        .medical-info-page .grid {
+          grid-template-columns: repeat(2, 1fr);
         }
-        
-        @media (min-width: 768px) {
-            .card {
-                max-width: 32rem;
-            }
-            
-            .user-type-btn {
-                padding: 1.25rem;
-                font-size: 1.1rem;
-            }
-            
-            .user-type-btn i {
-                font-size: 1.4rem;
-            }
-            
-            /* Show the third bracelet on larger screens */
-            .bracelet-3 {
-                display: block;
-            }
+
+        /* Adjust bracelets for desktops */
+        .bracelet-1 {
+          width: 600px;
+          height: 600px;
+          top: -200px;
+          right: -200px;
         }
-        
-        @media (min-width: 1024px) {
-            .medical-info-page .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            /* Adjust bracelets for desktops */
-            .bracelet-1 {
-                width: 600px;
-                height: 600px;
-                top: -200px;
-                right: -200px;
-            }
-            
-            .bracelet-2 {
-                width: 450px;
-                height: 450px;
-                bottom: -150px;
-                left: -150px;
-            }
-            
-            .bracelet-3 {
-                width: 800px;
-                height: 800px;
-            }
-            
-            .medical-bracelet::before {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .medical-bracelet::after {
-                font-size: 24px;
-            }
+
+        .bracelet-2 {
+          width: 450px;
+          height: 450px;
+          bottom: -150px;
+          left: -150px;
         }
-        
-        /* For very small screens */
-        @media (max-width: 400px) {
-            .info-label {
-                min-width: 100px;
-                font-size: 0.9rem;
-            }
-            
-            .info-value {
-                font-size: 0.9rem;
-            }
-            
-            .user-type-btn {
-                font-size: 0.95rem;
-                padding: 0.9rem;
-            }
-            
-            .user-type-btn i {
-                font-size: 1.1rem;
-                margin-right: 8px;
-            }
-            
-            /* Make bracelets smaller for very small screens */
-            .bracelet-1 {
-                width: 250px;
-                height: 250px;
-                top: -80px;
-                right: -80px;
-                border-width: 12px;
-            }
-            
-            .bracelet-2 {
-                width: 200px;
-                height: 200px;
-                bottom: -60px;
-                left: -60px;
-                border-width: 10px;
-            }
-            
-            .medical-bracelet::before {
-                width: 25px;
-                height: 25px;
-            }
-            
-            .medical-bracelet::after {
-                font-size: 14px;
-            }
+
+        .bracelet-3 {
+          width: 800px;
+          height: 800px;
         }
+
+        .medical-bracelet::before {
+          width: 50px;
+          height: 50px;
+        }
+
+        .medical-bracelet::after {
+          font-size: 24px;
+        }
+      }
+
+      /* For very small screens */
+      @media (max-width: 400px) {
+        .info-label {
+          min-width: 100px;
+          font-size: 0.9rem;
+        }
+
+        .info-value {
+          font-size: 0.9rem;
+        }
+
+        .user-type-btn {
+          font-size: 0.95rem;
+          padding: 0.9rem;
+        }
+
+        .user-type-btn i {
+          font-size: 1.1rem;
+          margin-right: 8px;
+        }
+
+        /* Make bracelets smaller for very small screens */
+        .bracelet-1 {
+          width: 250px;
+          height: 250px;
+          top: -80px;
+          right: -80px;
+          border-width: 12px;
+        }
+
+        .bracelet-2 {
+          width: 200px;
+          height: 200px;
+          bottom: -60px;
+          left: -60px;
+          border-width: 10px;
+        }
+
+        .medical-bracelet::before {
+          width: 25px;
+          height: 25px;
+        }
+
+        .medical-bracelet::after {
+          font-size: 14px;
+        }
+      }
     </style>
-</head>
-<body class="justify-center items-center gradient-bg min-h-screen flex flex-col">
+  </head>
+  <body class="justify-center items-center gradient-bg min-h-screen flex flex-col">
     <!-- Medical Bracelet Background Elements -->
     <div class="medical-bracelet bracelet-1"></div>
     <div class="medical-bracelet bracelet-2"></div>
@@ -509,559 +523,712 @@
 
     <!-- Welcome Screen (Shows if no URL parameters) -->
     <div id="welcome-screen" class="welcome-screen hidden">
-        <div class="welcome-icon">
-            <i class="fas fa-heartbeat text-white text-3xl"></i>
-        </div>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Safe Scan Medical ID</h1>
-        <p class="text-gray-600 mb-6 max-w-md mx-auto">
-            This page displays emergency medical information when accessed with a valid patient URL.
-        </p>
-        <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
-            <h3 class="font-semibold text-gray-800 mb-3">Example URL Format:</h3>
-            <code class="text-xs bg-gray-100 p-2 rounded block break-all">
-                ?name=Patient+Name&age=XX&gender=XX&bloodType=XX&address=XX&condition=XX...
-            </code>
-        </div>
+      <div class="welcome-icon">
+        <i class="fas fa-heartbeat text-white text-3xl"></i>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+        Safe Scan Medical ID
+      </h1>
+      <p class="text-gray-600 mb-6 max-w-md mx-auto">
+        This page displays emergency medical information when accessed with a valid
+        patient URL.
+      </p>
+      <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+        <h3 class="font-semibold text-gray-800 mb-3">Example URL Format:</h3>
+        <code class="text-xs bg-gray-100 p-2 rounded block break-all">
+          ?name=Patient+Name&age=XX&gender=XX&bloodType=XX&address=XX&condition=XX...
+        </code>
+      </div>
     </div>
 
     <!-- User Type Selection Page -->
     <div id="user-type-page" class="hidden w-full max-w-md p-4 sm:p-6">
-        <div class="card p-6 sm:p-8">
-            <div class="flex flex-col items-center mb-6 sm:mb-8">
-                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-                    <i class="fas fa-user-tie text-blue-600 text-xl sm:text-2xl"></i>
-                </div>
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 text-center">
-                    Identify Yourself
-                </h2>
-                <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2 text-center">
-                    Select your role to access appropriate information
-                </p>
-            </div>
-            
-            <div class="space-y-3 sm:space-y-4">
-                <button onclick="selectUserType('professional')" class="user-type-btn btn-secondary">
-                    <i class="fas fa-user-md"></i> Medical Professional
-                </button>
-                
-                <button onclick="selectUserType('citizen')" class="user-type-btn btn-emergency">
-                    <i class="fas fa-user"></i> Concerned Citizen
-                </button>
-            </div>
-            
-            <div class="mt-4 sm:mt-6 text-center">
-                <p class="text-gray-400 text-xs">
-                    Your selection determines accessible information
-                </p>
-            </div>
+      <div class="card p-6 sm:p-8">
+        <div class="flex flex-col items-center mb-6 sm:mb-8">
+          <div
+            class="w-14 h-14 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3 sm:mb-4"
+          >
+            <i class="fas fa-user-tie text-blue-600 text-xl sm:text-2xl"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 text-center">
+            Identify Yourself
+          </h2>
+          <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2 text-center">
+            Select your role to access appropriate information
+          </p>
         </div>
+
+        <div class="space-y-3 sm:space-y-4">
+          <button
+            onclick="selectUserType('professional')"
+            class="user-type-btn btn-secondary"
+          >
+            <i class="fas fa-user-md"></i> Medical Professional
+          </button>
+
+          <button onclick="selectUserType('citizen')" class="user-type-btn btn-emergency">
+            <i class="fas fa-user"></i> Concerned Citizen
+          </button>
+        </div>
+
+        <div class="mt-4 sm:mt-6 text-center">
+          <p class="text-gray-400 text-xs">
+            Your selection determines accessible information
+          </p>
+        </div>
+      </div>
     </div>
 
     <!-- Medical Information Page -->
     <div id="medical-info-page" class="hidden w-full">
-        <div class="bg-gray-50 min-h-screen">
-            <div class="container mx-auto px-4 py-6 sm:py-8 max-w-6xl">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8">
-                    <div>
-                        <h1 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center">
-                            <i class="fas fa-user-circle text-blue-500 mr-2 sm:mr-3 text-xl sm:text-2xl"></i>
-                            Patient Medical Information
-                        </h1>
-                        <p class="text-gray-500 text-xs sm:text-sm mt-1">
-                            Last updated: <span id="last-updated">Today</span>
-                        </p>
-                    </div>
-                    <button onclick="backToWelcome()" class="btn-primary py-2 px-4 rounded-lg mt-3 sm:mt-0 text-sm sm:text-base">
-                        <i class="fas fa-home mr-1 sm:mr-2"></i> Return Home
-                    </button>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                    <!-- Patient Info -->
-                    <div class="medical-info">
-                        <div class="section-title">
-                            <i class="fas fa-id-card text-blue-500"></i>
-                            Patient Details
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <p><span class="info-label">Name:</span> <span id="patient-name" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Age:</span> <span id="patient-age" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Gender:</span> <span id="patient-gender" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Blood Type:</span> <span id="patient-blood" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Address:</span> <span id="patient-address" class="info-value">Loading...</span></p>
-                        </div>
-                    </div>
-                    
-                    <!-- Medical Condition -->
-                    <div class="medical-info">
-                        <div class="section-title">
-                            <i class="fas fa-heartbeat text-red-500"></i>
-                            Medical Condition
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <p><span class="info-label">Primary Condition:</span> <span id="patient-condition" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Diagnosis:</span> <span id="patient-diagnosis" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Allergies:</span> <span id="patient-allergies" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Current Medications:</span> <span id="patient-medications" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Recent Procedures:</span> <span id="patient-procedures" class="info-value">Loading...</span></p>
-                        </div>
-                    </div>
-                    
-                    <!-- Medical History -->
-                    <div class="medical-info">
-                        <div class="section-title">
-                            <i class="fas fa-history text-purple-500"></i>
-                            Medical History
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <p><span class="info-label">Primary Physician:</span> <span id="patient-physician" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Clinic/Hospital:</span> <span id="patient-clinic" class="info-value">Loading...</span></p>
-                        </div>
-                    </div>
-                    
-                    <!-- Emergency Contacts -->
-                    <div class="emergency-contact">
-                        <div class="section-title">
-                            <i class="fas fa-phone-alt text-green-500"></i>
-                            Emergency Contacts
-                            <span class="emergency-badge">URGENT</span>
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <p><span class="info-label">Spouse:</span> <span id="contact-spouse" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Son:</span> <span id="contact-son" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Daughter:</span> <span id="contact-daughter" class="info-value">Loading...</span></p>
-                            <p><span class="info-label">Neighbor:</span> <span id="contact-neighbor" class="info-value">Loading...</span></p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-50 p-4 sm:p-6 rounded-lg mb-6 sm:mb-8 border border-blue-100">
-                    <h3 class="text-lg sm:text-xl font-semibold text-blue-800 mb-3 sm:mb-4 flex items-center">
-                        <i class="fas fa-bell mr-1 sm:mr-2"></i> Emergency Actions
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                        <button onclick="notifyEmergencyContacts()" class="btn-secondary py-2 sm:py-3 px-3 sm:px-4 rounded-lg flex items-center justify-center text-sm sm:text-base">
-                            <i class="fas fa-bell mr-1 sm:mr-2"></i> Notify Contacts
-                        </button>
-                        <button onclick="showEmergencyInstructions()" class="btn-primary py-2 sm:py-3 px-3 sm:px-4 rounded-lg flex items-center justify-center text-sm sm:text-base">
-                            <i class="fas fa-first-aid mr-1 sm:mr-2"></i> Emergency Protocol
-                        </button>
-                    </div>
-                </div>
+      <div class="bg-gray-50 min-h-screen">
+        <div class="container mx-auto px-4 py-6 sm:py-8 max-w-6xl">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8"
+          >
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center">
+                <i
+                  class="fas fa-user-circle text-blue-500 mr-2 sm:mr-3 text-xl sm:text-2xl"
+                ></i>
+                Patient Medical Information
+              </h1>
+              <p class="text-gray-500 text-xs sm:text-sm mt-1">
+                Last updated: <span id="last-updated">Today</span>
+              </p>
             </div>
+            <button
+              onclick="backToWelcome()"
+              class="btn-primary py-2 px-4 rounded-lg mt-3 sm:mt-0 text-sm sm:text-base"
+            >
+              Return Home
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <!-- Patient Info -->
+            <div class="medical-info">
+              <div class="section-title">Patient Details</div>
+              <div class="space-y-2 sm:space-y-3">
+                <p>
+                  <span class="info-label">Name:</span>
+                  <span id="patient-name" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Age:</span>
+                  <span id="patient-age" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Gender:</span>
+                  <span id="patient-gender" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Blood Type:</span>
+                  <span id="patient-blood" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Address:</span>
+                  <span id="patient-address" class="info-value">Loading...</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- Medical Condition -->
+            <div class="medical-info">
+              <div class="section-title">
+                <i class="fas fa-heartbeat text-red-500"></i>
+                Medical Condition
+              </div>
+              <div class="space-y-2 sm:space-y-3">
+                <p>
+                  <span class="info-label">Primary Condition:</span>
+                  <span id="patient-condition" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Diagnosis:</span>
+                  <span id="patient-diagnosis" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Allergies:</span>
+                  <span id="patient-allergies" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Current Medications:</span>
+                  <span id="patient-medications" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Recent Procedures:</span>
+                  <span id="patient-procedures" class="info-value">Loading...</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- Medical History -->
+            <div class="medical-info">
+              <div class="section-title">
+                <i class="fas fa-history text-purple-500"></i>
+                Medical History
+              </div>
+              <div class="space-y-2 sm:space-y-3">
+                <p>
+                  <span class="info-label">Primary Physician:</span>
+                  <span id="patient-physician" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Clinic/Hospital:</span>
+                  <span id="patient-clinic" class="info-value">Loading...</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- Emergency Contacts -->
+            <div class="emergency-contact">
+              <div class="section-title">
+                <i class="fas fa-phone-alt text-green-500"></i>
+                Emergency Contacts
+                <span class="emergency-badge">URGENT</span>
+              </div>
+              <div class="space-y-2 sm:space-y-3">
+                <p>
+                  <span class="info-label">Spouse:</span>
+                  <span id="contact-spouse" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Son:</span>
+                  <span id="contact-son" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Daughter:</span>
+                  <span id="contact-daughter" class="info-value">Loading...</span>
+                </p>
+                <p>
+                  <span class="info-label">Neighbor:</span>
+                  <span id="contact-neighbor" class="info-value">Loading...</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-blue-50 p-4 sm:p-6 rounded-lg mb-6 sm:mb-8 border border-blue-100"
+          >
+            <h3
+              class="text-lg sm:text-xl font-semibold text-blue-800 mb-3 sm:mb-4 flex items-center"
+            >
+              <i class="fas fa-bell mr-1 sm:mr-2"></i> Emergency Actions
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <button
+                onclick="notifyEmergencyContacts()"
+                class="btn-secondary py-2 sm:py-3 px-3 sm:px-4 rounded-lg flex items-center justify-center text-sm sm:text-base"
+              >
+                <i class="fas fa-bell mr-1 sm:mr-2"></i> Notify Contacts
+              </button>
+              <button
+                onclick="showEmergencyInstructions()"
+                class="btn-primary py-2 sm:py-3 px-3 sm:px-4 rounded-lg flex items-center justify-center text-sm sm:text-base"
+              >
+                <i class="fas fa-first-aid mr-1 sm:mr-2"></i> Emergency Protocol
+              </button>
+            </div>
+          </div>
         </div>
-        
-        <!-- Feedback Button (Fixed at bottom right) -->
-        <div class="feedback-btn" onclick="showFeedbackModal()">
-            <i class="fas fa-comment-dots text-xl"></i>
-        </div>
+      </div>
+
+      <!-- Feedback Button (Fixed at bottom right) -->
+      <div class="feedback-btn" onclick="showFeedbackModal()">
+        <i class="fas fa-comment-dots text-xl"></i>
+      </div>
     </div>
 
     <!-- Concerned Citizen Page -->
     <div id="concerned-citizen-page" class="hidden w-full max-w-md p-4 sm:p-6">
-        <div class="card p-6 sm:p-8">
-            <div class="location-access">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                    <i class="fas fa-map-marker-alt text-blue-500 text-2xl sm:text-3xl"></i>
-                </div>
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3 text-center">
-                    Emergency Location Access
-                </h2>
-                <p class="text-gray-600 mb-4 sm:mb-6 text-center text-sm sm:text-base">
-                    To help this person, we need to notify emergency services of your location.
-                </p>
-                
-                <button onclick="requestLocationAccess()" class="btn-emergency py-2 sm:py-3 px-4 sm:px-6 rounded-lg w-full max-w-xs mx-auto flex items-center justify-center text-sm sm:text-base">
-                    <i class="fas fa-location-arrow mr-1 sm:mr-2"></i> Share My Location
-                </button>
-                
-                <p class="text-xs text-gray-400 mt-4 sm:mt-6 text-center">
-                    <i class="fas fa-lock mr-1"></i> Your location will only be used to dispatch emergency services
-                </p>
-            </div>
+      <div class="card p-6 sm:p-8">
+        <div class="location-access">
+          <div
+            class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+          >
+            <i class="fas fa-map-marker-alt text-blue-500 text-2xl sm:text-3xl"></i>
+          </div>
+          <h2
+            class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3 text-center"
+          >
+            Emergency Location Access
+          </h2>
+          <p class="text-gray-600 mb-4 sm:mb-6 text-center text-sm sm:text-base">
+            To help this person, we need to notify emergency services of your location.
+          </p>
+
+          <button
+            onclick="requestLocationAccess()"
+            class="btn-emergency py-2 sm:py-3 px-4 sm:px-6 rounded-lg w-full max-w-xs mx-auto flex items-center justify-center text-sm sm:text-base"
+          >
+            Share My Location
+          </button>
+
+          <p class="text-xs text-gray-400 mt-4 sm:mt-6 text-center">
+            Your location will only be used to dispatch emergency services
+          </p>
         </div>
+      </div>
     </div>
 
     <!-- Location Success Page -->
     <div id="location-success-page" class="hidden w-full max-w-md p-4 sm:p-6">
-        <div class="card p-6 sm:p-8">
-            <div class="location-access">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                    <i class="fas fa-check-circle text-green-500 text-2xl sm:text-3xl"></i>
-                </div>
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3 text-center">
-                    Help Is On The Way!
-                </h2>
-                <p class="text-gray-600 mb-3 sm:mb-4 text-center text-sm sm:text-base">
-                    Authorities have been notified and are en route to this location.
-                </p>
-                <p class="text-base sm:text-lg font-semibold text-green-600 mb-4 sm:mb-6 text-center">
-                    Thank you for your help!
-                </p>
-                
-                <button onclick="backToWelcome()" class="btn-primary py-2 sm:py-3 px-4 sm:px-6 rounded-lg w-full max-w-xs mx-auto flex items-center justify-center text-sm sm:text-base">
-                    <i class="fas fa-home mr-1 sm:mr-2"></i> Return Home
-                </button>
-                
-                <div class="mt-6 sm:mt-8 p-3 sm:p-4 bg-blue-50 rounded-lg">
-                    <p class="text-xs sm:text-sm text-blue-800 text-center">
-                        <i class="fas fa-info-circle mr-1"></i> If possible, stay with the person until help arrives
-                    </p>
-                </div>
-            </div>
+      <div class="card p-6 sm:p-8">
+        <div class="location-access">
+          <div
+            class="w-16 h-16 sm:w-20 sm:h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+          >
+            <i class="fas fa-check-circle text-green-500 text-2xl sm:text-3xl"></i>
+          </div>
+          <h2
+            class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3 text-center"
+          >
+            Help Is On The Way!
+          </h2>
+          <p class="text-gray-600 mb-3 sm:mb-4 text-center text-sm sm:text-base">
+            Authorities have been notified and are en route to this location.
+          </p>
+          <p
+            class="text-base sm:text-lg font-semibold text-green-600 mb-4 sm:mb-6 text-center"
+          >
+            Thank you for your help!
+          </p>
+
+          <button
+            onclick="backToWelcome()"
+            class="btn-primary py-2 sm:py-3 px-4 sm:px-6 rounded-lg w-full max-w-xs mx-auto flex items-center justify-center text-sm sm:text-base"
+          >
+            Return Home
+          </button>
+
+          <div class="mt-6 sm:mt-8 p-3 sm:p-4 bg-blue-50 rounded-lg">
+            <p class="text-xs sm:text-sm text-blue-800 text-center">
+              If possible, stay with the person until help arrives
+            </p>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Emergency Instructions Modal -->
     <div id="emergency-instructions" class="modal-overlay hidden">
-        <div class="card w-full max-w-2xl p-6 sm:p-8">
-            <div class="flex justify-between items-center mb-4 sm:mb-6">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center">
-                    <i class="fas fa-first-aid text-red-500 mr-2 sm:mr-3"></i>
-                    Emergency Protocol
-                </h2>
-                <button onclick="hideEmergencyInstructions()" class="text-gray-400 hover:text-gray-600 transition">
-                    <i class="fas fa-times text-lg sm:text-xl"></i>
-                </button>
-            </div>
-            
-            <div class="space-y-3 sm:space-y-5">
-                <div class="bg-red-50 p-4 sm:p-5 rounded-lg border border-red-100">
-                    <h4 class="font-bold text-red-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
-                        <i class="fas fa-exclamation-triangle mr-1 sm:mr-2"></i>
-                        For <span id="emergency-condition" class="font-bold">[Condition]</span>:
-                    </h4>
-                    <p id="emergency-instructions-text" class="text-gray-700 text-sm sm:text-base">
-                        Loading emergency instructions...
-                    </p>
-                </div>
-                
-                <div class="bg-yellow-50 p-4 sm:p-5 rounded-lg border border-yellow-100">
-                    <h4 class="font-bold text-yellow-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
-                        <i class="fas fa-allergies mr-1 sm:mr-2"></i>
-                        Allergy Warning
-                    </h4>
-                    <p id="allergy-warning-text" class="text-gray-700 text-sm sm:text-base">
-                        Loading allergy information...
-                    </p>
-                </div>
-                
-                <div class="bg-green-50 p-4 sm:p-5 rounded-lg border border-green-100">
-                    <h4 class="font-bold text-green-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
-                        <i class="fas fa-pills mr-1 sm:mr-2"></i>
-                        Medication Notes
-                    </h4>
-                    <p id="medication-notes-text" class="text-gray-700 text-sm sm:text-base">
-                        Loading medication information...
-                    </p>
-                </div>
-            </div>
-            
-            <div class="mt-6 sm:mt-8">
-                <button onclick="hideEmergencyInstructions()" class="btn-primary w-full py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base">
-                    <i class="fas fa-check mr-1 sm:mr-2"></i> Understood
-                </button>
-                <button onclick="showFeedbackModal()" class="btn-secondary w-full py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base mt-3">
-                    <i class="fas fa-comment-dots mr-1 sm:mr-2"></i> Provide Feedback
-                </button>
-            </div>
+      <div class="card w-full max-w-2xl p-6 sm:p-8">
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center">
+            <i class="fas fa-first-aid text-red-500 mr-2 sm:mr-3"></i>
+            Emergency Protocol
+          </h2>
+          <button
+            onclick="hideEmergencyInstructions()"
+            class="text-gray-400 hover:text-gray-600 transition"
+          >
+            <i class="fas fa-times text-lg sm:text-xl"></i>
+          </button>
         </div>
+
+        <div class="space-y-3 sm:space-y-5">
+          <div class="bg-red-50 p-4 sm:p-5 rounded-lg border border-red-100">
+            <h4
+              class="font-bold text-red-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base"
+            >
+              <i class="fas fa-exclamation-triangle mr-1 sm:mr-2"></i>
+              For <span id="emergency-condition" class="font-bold">[Condition]</span>:
+            </h4>
+            <p
+              id="emergency-instructions-text"
+              class="text-gray-700 text-sm sm:text-base"
+            >
+              Loading emergency instructions...
+            </p>
+          </div>
+
+          <div class="bg-yellow-50 p-4 sm:p-5 rounded-lg border border-yellow-100">
+            <h4
+              class="font-bold text-yellow-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base"
+            >
+              <i class="fas fa-allergies mr-1 sm:mr-2"></i>
+              Allergy Warning
+            </h4>
+            <p id="allergy-warning-text" class="text-gray-700 text-sm sm:text-base">
+              Loading allergy information...
+            </p>
+          </div>
+
+          <div class="bg-green-50 p-4 sm:p-5 rounded-lg border border-green-100">
+            <h4
+              class="font-bold text-green-700 mb-2 sm:mb-3 flex items-center text-sm sm:text-base"
+            >
+              <i class="fas fa-pills mr-1 sm:mr-2"></i>
+              Medication Notes
+            </h4>
+            <p id="medication-notes-text" class="text-gray-700 text-sm sm:text-base">
+              Loading medication information...
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 sm:mt-8">
+          <button
+            onclick="hideEmergencyInstructions()"
+            class="btn-primary w-full py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base"
+          >
+            <i class="fas fa-check mr-1 sm:mr-2"></i> Understood
+          </button>
+          <button
+            onclick="showFeedbackModal()"
+            class="btn-secondary w-full py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base mt-3"
+          >
+            <i class="fas fa-comment-dots mr-1 sm:mr-2"></i> Provide Feedback
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Feedback Modal -->
     <div id="feedback-modal" class="modal-overlay hidden">
-        <div class="card feedback-modal p-6 sm:p-8">
-            <div class="flex justify-between items-center mb-4 sm:mb-6">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center">
-                    <i class="fas fa-comment-dots text-blue-500 mr-2 sm:mr-3"></i>
-                    Share Your Feedback
-                </h2>
-                <button onclick="hideFeedbackModal()" class="text-gray-400 hover:text-gray-600 transition">
-                    <i class="fas fa-times text-lg sm:text-xl"></i>
-                </button>
-            </div>
-            
-            <div class="mb-4 sm:mb-6">
-                <p class="text-gray-700 mb-2 sm:mb-3">How would you rate your experience?</p>
-                <div class="feedback-rating">
-                    <i class="fas fa-star rating-star" data-rating="1"></i>
-                    <i class="fas fa-star rating-star" data-rating="2"></i>
-                    <i class="fas fa-star rating-star" data-rating="3"></i>
-                    <i class="fas fa-star rating-star" data-rating="4"></i>
-                    <i class="fas fa-star rating-star" data-rating="5"></i>
-                </div>
-            </div>
-            
-            <div class="mb-4 sm:mb-6">
-                <label for="feedback-comment" class="block text-gray-700 mb-2">Additional comments (optional)</label>
-                <textarea id="feedback-comment" class="feedback-textarea" placeholder="What worked well? What could be improved?"></textarea>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row gap-3">
-                <button onclick="submitFeedback()" class="btn-primary flex-1 py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base">
-                    <i class="fas fa-paper-plane mr-1 sm:mr-2"></i> Submit Feedback
-                </button>
-                <button onclick="hideFeedbackModal()" class="btn-secondary flex-1 py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base">
-                    <i class="fas fa-times mr-1 sm:mr-2"></i> Cancel
-                </button>
-            </div>
+      <div class="card feedback-modal p-6 sm:p-8">
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center">
+            <i class="fas fa-comment-dots text-blue-500 mr-2 sm:mr-3"></i>
+            Share Your Feedback
+          </h2>
+          <button
+            onclick="hideFeedbackModal()"
+            class="text-gray-400 hover:text-gray-600 transition"
+          >
+            <i class="fas fa-times text-lg sm:text-xl"></i>
+          </button>
         </div>
+
+        <div class="mb-4 sm:mb-6">
+          <p class="text-gray-700 mb-2 sm:mb-3">How would you rate your experience?</p>
+          <div class="feedback-rating">
+            <i class="fas fa-star rating-star" data-rating="1"></i>
+            <i class="fas fa-star rating-star" data-rating="2"></i>
+            <i class="fas fa-star rating-star" data-rating="3"></i>
+            <i class="fas fa-star rating-star" data-rating="4"></i>
+            <i class="fas fa-star rating-star" data-rating="5"></i>
+          </div>
+        </div>
+
+        <div class="mb-4 sm:mb-6">
+          <label for="feedback-comment" class="block text-gray-700 mb-2"
+            >Additional comments (optional)</label
+          >
+          <textarea
+            id="feedback-comment"
+            class="feedback-textarea"
+            placeholder="What worked well? What could be improved?"
+          ></textarea>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button
+            onclick="submitFeedback()"
+            class="btn-primary flex-1 py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base"
+          >
+            <i class="fas fa-paper-plane mr-1 sm:mr-2"></i> Submit Feedback
+          </button>
+          <button
+            onclick="hideFeedbackModal()"
+            class="btn-secondary flex-1 py-2 sm:py-3 px-4 rounded-lg flex items-center justify-center text-sm sm:text-base"
+          >
+            <i class="fas fa-times mr-1 sm:mr-2"></i> Cancel
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Feedback Success Modal -->
     <div id="feedback-success-modal" class="modal-overlay hidden">
-        <div class="card w-full max-w-md p-6 sm:p-8">
-            <div class="text-center">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                    <i class="fas fa-check-circle text-green-500 text-2xl sm:text-3xl"></i>
-                </div>
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
-                    Thank You!
-                </h2>
-                <p class="text-gray-600 mb-4 sm:mb-6">
-                    Your feedback has been submitted successfully. We appreciate your input!
-                </p>
-                <button onclick="hideFeedbackSuccessModal()" class="btn-primary py-2 sm:py-3 px-4 sm:px-6 rounded-lg w-full max-w-xs mx-auto">
-                    <i class="fas fa-check mr-1 sm:mr-2"></i> Continue
-                </button>
-            </div>
+      <div class="card w-full max-w-md p-6 sm:p-8">
+        <div class="text-center">
+          <div
+            class="w-16 h-16 sm:w-20 sm:h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+          >
+            <i class="fas fa-check-circle text-green-500 text-2xl sm:text-3xl"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
+            Thank You!
+          </h2>
+          <p class="text-gray-600 mb-4 sm:mb-6">
+            Your feedback has been submitted successfully. We appreciate your input!
+          </p>
+          <button
+            onclick="hideFeedbackSuccessModal()"
+            class="btn-primary py-2 sm:py-3 px-4 sm:px-6 rounded-lg w-full max-w-xs mx-auto"
+          >
+            <i class="fas fa-check mr-1 sm:mr-2"></i> Continue
+          </button>
         </div>
+      </div>
     </div>
 
     <script>
-        // Global variable to store patient data
-        let currentPatientData = null;
-        let selectedRating = 0;
-        
-        // Initialize when page loads
-        window.onload = function() {
-            // Get URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            if (urlParams.size > 0) {
-                // If URL has parameters, process them
-                processURLParams(urlParams);
-            } else {
-                // If no parameters, show welcome screen
-                document.getElementById('welcome-screen').classList.remove('hidden');
-            }
-            
-            // Initialize rating stars
-            initRatingStars();
-        };
-        
+      // Global variable to store patient data
+      let currentPatientData = null;
+      let selectedRating = 0;
+
+      // Initialize when page loads
+      window.onload = function () {
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.size > 0) {
+          // If URL has parameters, process them
+          processURLParams(urlParams);
+        } else {
+          // If no parameters, show welcome screen
+          document.getElementById("welcome-screen").classList.remove("hidden");
+        }
+
         // Initialize rating stars
-        function initRatingStars() {
-            const stars = document.querySelectorAll('.rating-star');
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const rating = parseInt(this.getAttribute('data-rating'));
-                    setRating(rating);
-                });
-            });
+        initRatingStars();
+      };
+
+      // Initialize rating stars
+      function initRatingStars() {
+        const stars = document.querySelectorAll(".rating-star");
+        stars.forEach((star) => {
+          star.addEventListener("click", function () {
+            const rating = parseInt(this.getAttribute("data-rating"));
+            setRating(rating);
+          });
+        });
+      }
+
+      // Set rating stars
+      function setRating(rating) {
+        selectedRating = rating;
+        const stars = document.querySelectorAll(".rating-star");
+        stars.forEach((star) => {
+          const starRating = parseInt(star.getAttribute("data-rating"));
+          if (starRating <= rating) {
+            star.classList.add("active");
+          } else {
+            star.classList.remove("active");
+          }
+        });
+      }
+
+      // Process URL parameters
+      function processURLParams(urlParams) {
+        // Create patient data object from URL parameters
+        currentPatientData = {
+          name: urlParams.get("name") || "Not specified",
+          age: urlParams.get("age") ? `${urlParams.get("age")} years` : "Not specified",
+          gender: urlParams.get("gender") || "Not specified",
+          bloodType: urlParams.get("bloodType") || "Not specified",
+          address: urlParams.get("address") || "Not specified",
+          condition: urlParams.get("condition") || "Not specified",
+          diagnosis: urlParams.get("primaryDiagnosis") || "Not specified",
+          allergies: urlParams.get("allergies") || "None known",
+          medications:
+            [urlParams.get("medication1"), urlParams.get("medication2")]
+              .filter(Boolean)
+              .join(", ") || "None specified",
+          procedures: urlParams.get("procedure") || "None in past 6 months",
+          physician: urlParams.get("physician") || "Not specified",
+          clinic: urlParams.get("clinic") || "Not specified",
+          contacts: [
+            `Spouse: ${urlParams.get("spouse") || "Not specified"}`,
+            `Son: ${urlParams.get("son") || "Not specified"}`,
+            `Daughter: ${urlParams.get("daughter") || "Not specified"}`,
+            `Neighbor: ${urlParams.get("neighbor") || "Not specified"}`,
+          ],
+          lastUpdated: new Date().toLocaleString(),
+          emergencyInstructions: {
+            condition: urlParams.get("condition") || "Medical condition",
+            instructions: getEmergencyInstructions(urlParams.get("condition")),
+            allergyWarning: urlParams.get("allergies")
+              ? `Patient has allergies to: ${urlParams.get(
+                  "allergies"
+                )}. Avoid exposure to these substances.`
+              : "No known allergies.",
+            medicationNotes:
+              urlParams.get("medication1") || urlParams.get("medication2")
+                ? `Patient takes: ${[
+                    urlParams.get("medication1"),
+                    urlParams.get("medication2"),
+                  ]
+                    .filter(Boolean)
+                    .join(" and ")}.`
+                : "No current medications specified.",
+          },
+        };
+
+        // Show user type selection page
+        document.getElementById("user-type-page").classList.remove("hidden");
+      }
+
+      // Get appropriate emergency instructions based on condition
+      function getEmergencyInstructions(condition) {
+        if (!condition) return "No specific emergency instructions available.";
+
+        const conditionLower = condition.toLowerCase();
+
+        if (conditionLower.includes("alzheimer") || conditionLower.includes("dementia")) {
+          return "Patient may be confused or disoriented. Speak calmly and clearly. Avoid confrontation. Check for medical alert bracelet for additional information. If patient is non-responsive, check airway and breathing and call emergency services immediately.";
+        } else if (conditionLower.includes("diabetes")) {
+          return "If patient is conscious but confused or irritable, they may be experiencing low blood sugar. Offer sugar if able to swallow. If unconscious or unable to swallow, do not give anything by mouth and call emergency services immediately.";
+        } else if (
+          conditionLower.includes("epilepsy") ||
+          conditionLower.includes("seizure")
+        ) {
+          return "If patient is having a seizure: 1) Protect from injury (move objects away), 2) Do not restrain, 3) Time the seizure, 4) After seizure ends, place in recovery position, 5) Call emergency services if seizure lasts more than 5 minutes or if another seizure follows immediately.";
+        } else if (conditionLower.includes("asthma") || conditionLower.includes("copd")) {
+          return "If patient is having breathing difficulty: 1) Help them sit upright, 2) Assist with inhaler if available, 3) Loosen tight clothing, 4) Call emergency services if breathing doesn't improve within a few minutes or if lips/fingernails turn blue.";
+        } else if (conditionLower.includes("heart")) {
+          return "If patient experiences chest pain or discomfort: 1) Have them sit or lie down, 2) Call emergency services immediately, 3) If patient has prescribed nitroglycerin, assist with administration, 4) Monitor breathing and pulse until help arrives.";
+        } else {
+          return "General emergency instructions: 1) Check responsiveness, 2) Call emergency services, 3) Check breathing and pulse, 4) If not breathing, begin CPR if trained, 5) If bleeding, apply direct pressure, 6) Do not move patient unless in immediate danger.";
         }
-        
-        // Set rating stars
-        function setRating(rating) {
-            selectedRating = rating;
-            const stars = document.querySelectorAll('.rating-star');
-            stars.forEach(star => {
-                const starRating = parseInt(star.getAttribute('data-rating'));
-                if (starRating <= rating) {
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                }
-            });
+      }
+
+      // Select User Type
+      function selectUserType(userType) {
+        if (userType === "professional") {
+          // Show medical info page for professionals
+          populatePatientData(currentPatientData);
+          document.getElementById("user-type-page").classList.add("hidden");
+          document.getElementById("medical-info-page").classList.remove("hidden");
+        } else {
+          // Show concerned citizen page
+          document.getElementById("user-type-page").classList.add("hidden");
+          document.getElementById("concerned-citizen-page").classList.remove("hidden");
         }
-        
-        // Process URL parameters
-        function processURLParams(urlParams) {
-            // Create patient data object from URL parameters
-            currentPatientData = {
-                name: urlParams.get('name') || 'Not specified',
-                age: urlParams.get('age') ? `${urlParams.get('age')} years` : 'Not specified',
-                gender: urlParams.get('gender') || 'Not specified',
-                bloodType: urlParams.get('bloodType') || 'Not specified',
-                address: urlParams.get('address') || 'Not specified',
-                condition: urlParams.get('condition') || 'Not specified',
-                diagnosis: urlParams.get('primaryDiagnosis') || 'Not specified',
-                allergies: urlParams.get('allergies') || 'None known',
-                medications: [
-                    urlParams.get('medication1'),
-                    urlParams.get('medication2')
-                ].filter(Boolean).join(', ') || 'None specified',
-                procedures: urlParams.get('procedure') || 'None in past 6 months',
-                physician: urlParams.get('physician') || 'Not specified',
-                clinic: urlParams.get('clinic') || 'Not specified',
-                contacts: [
-                    `Spouse: ${urlParams.get('spouse') || 'Not specified'}`,
-                    `Son: ${urlParams.get('son') || 'Not specified'}`,
-                    `Daughter: ${urlParams.get('daughter') || 'Not specified'}`,
-                    `Neighbor: ${urlParams.get('neighbor') || 'Not specified'}`
-                ],
-                lastUpdated: new Date().toLocaleString(),
-                emergencyInstructions: {
-                    condition: urlParams.get('condition') || 'Medical condition',
-                    instructions: getEmergencyInstructions(urlParams.get('condition')),
-                    allergyWarning: urlParams.get('allergies') ? 
-                        `Patient has allergies to: ${urlParams.get('allergies')}. Avoid exposure to these substances.` : 
-                        'No known allergies.',
-                    medicationNotes: urlParams.get('medication1') || urlParams.get('medication2') ? 
-                        `Patient takes: ${[urlParams.get('medication1'), urlParams.get('medication2')].filter(Boolean).join(' and ')}.` : 
-                        'No current medications specified.'
-                }
-            };
-            
-            // Show user type selection page
-            document.getElementById('user-type-page').classList.remove('hidden');
+      }
+
+      // Request Location Access
+      function requestLocationAccess() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              // Success - show success page
+              document.getElementById("concerned-citizen-page").classList.add("hidden");
+              document.getElementById("location-success-page").classList.remove("hidden");
+
+              // In a real app, you would send this location to emergency services
+              console.log(
+                "Location coordinates:",
+                position.coords.latitude,
+                position.coords.longitude
+              );
+            },
+            function (error) {
+              // Error - show error message
+              alert(
+                "Could not access your location. Please enable location services in your browser settings."
+              );
+              console.error("Geolocation error:", error);
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+          );
+        } else {
+          alert(
+            "Geolocation is not supported by your browser. Please use a different device."
+          );
         }
-        
-        // Get appropriate emergency instructions based on condition
-        function getEmergencyInstructions(condition) {
-            if (!condition) return "No specific emergency instructions available.";
-            
-            const conditionLower = condition.toLowerCase();
-            
-            if (conditionLower.includes('alzheimer') || conditionLower.includes('dementia')) {
-                return "Patient may be confused or disoriented. Speak calmly and clearly. Avoid confrontation. Check for medical alert bracelet for additional information. If patient is non-responsive, check airway and breathing and call emergency services immediately.";
-            } else if (conditionLower.includes('diabetes')) {
-                return "If patient is conscious but confused or irritable, they may be experiencing low blood sugar. Offer sugar if able to swallow. If unconscious or unable to swallow, do not give anything by mouth and call emergency services immediately.";
-            } else if (conditionLower.includes('epilepsy') || conditionLower.includes('seizure')) {
-                return "If patient is having a seizure: 1) Protect from injury (move objects away), 2) Do not restrain, 3) Time the seizure, 4) After seizure ends, place in recovery position, 5) Call emergency services if seizure lasts more than 5 minutes or if another seizure follows immediately.";
-            } else if (conditionLower.includes('asthma') || conditionLower.includes('copd')) {
-                return "If patient is having breathing difficulty: 1) Help them sit upright, 2) Assist with inhaler if available, 3) Loosen tight clothing, 4) Call emergency services if breathing doesn't improve within a few minutes or if lips/fingernails turn blue.";
-            } else if (conditionLower.includes('heart')) {
-                return "If patient experiences chest pain or discomfort: 1) Have them sit or lie down, 2) Call emergency services immediately, 3) If patient has prescribed nitroglycerin, assist with administration, 4) Monitor breathing and pulse until help arrives.";
-            } else {
-                return "General emergency instructions: 1) Check responsiveness, 2) Call emergency services, 3) Check breathing and pulse, 4) If not breathing, begin CPR if trained, 5) If bleeding, apply direct pressure, 6) Do not move patient unless in immediate danger.";
-            }
-        }
-        
-        // Select User Type
-        function selectUserType(userType) {
-            if (userType === 'professional') {
-                // Show medical info page for professionals
-                populatePatientData(currentPatientData);
-                document.getElementById('user-type-page').classList.add('hidden');
-                document.getElementById('medical-info-page').classList.remove('hidden');
-            } else {
-                // Show concerned citizen page
-                document.getElementById('user-type-page').classList.add('hidden');
-                document.getElementById('concerned-citizen-page').classList.remove('hidden');
-            }
-        }
-        
-        // Request Location Access
-        function requestLocationAccess() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        // Success - show success page
-                        document.getElementById('concerned-citizen-page').classList.add('hidden');
-                        document.getElementById('location-success-page').classList.remove('hidden');
-                        
-                        // In a real app, you would send this location to emergency services
-                        console.log("Location coordinates:", position.coords.latitude, position.coords.longitude);
-                    },
-                    function(error) {
-                        // Error - show error message
-                        alert("Could not access your location. Please enable location services in your browser settings.");
-                        console.error("Geolocation error:", error);
-                    },
-                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-                );
-            } else {
-                alert("Geolocation is not supported by your browser. Please use a different device.");
-            }
-        }
-        
-        // Populate Patient Data
-        function populatePatientData(patientData) {
-            document.getElementById('patient-name').textContent = patientData.name;
-            document.getElementById('patient-age').textContent = patientData.age;
-            document.getElementById('patient-gender').textContent = patientData.gender;
-            document.getElementById('patient-blood').textContent = patientData.bloodType;
-            document.getElementById('patient-address').textContent = patientData.address;
-            document.getElementById('patient-condition').textContent = patientData.condition;
-            document.getElementById('patient-diagnosis').textContent = patientData.diagnosis;
-            document.getElementById('patient-allergies').textContent = patientData.allergies;
-            document.getElementById('patient-medications').textContent = patientData.medications;
-            document.getElementById('patient-procedures').textContent = patientData.procedures;
-            document.getElementById('patient-physician').textContent = patientData.physician;
-            document.getElementById('patient-clinic').textContent = patientData.clinic;
-            document.getElementById('last-updated').textContent = patientData.lastUpdated;
-            
-            // Populate emergency contacts
-            document.getElementById('contact-spouse').textContent = patientData.contacts[0].replace('Spouse: ', '');
-            document.getElementById('contact-son').textContent = patientData.contacts[1].replace('Son: ', '');
-            document.getElementById('contact-daughter').textContent = patientData.contacts[2].replace('Daughter: ', '');
-            document.getElementById('contact-neighbor').textContent = patientData.contacts[3].replace('Neighbor: ', '');
-            
-            // Set emergency instructions data
-            document.getElementById('emergency-condition').textContent = patientData.emergencyInstructions.condition;
-            document.getElementById('emergency-instructions-text').textContent = patientData.emergencyInstructions.instructions;
-            document.getElementById('allergy-warning-text').textContent = patientData.emergencyInstructions.allergyWarning;
-            document.getElementById('medication-notes-text').textContent = patientData.emergencyInstructions.medicationNotes;
-        }
-        
-        // Navigation Functions
-        function backToWelcome() {
-            document.getElementById('medical-info-page').classList.add('hidden');
-            document.getElementById('user-type-page').classList.add('hidden');
-            document.getElementById('concerned-citizen-page').classList.add('hidden');
-            document.getElementById('location-success-page').classList.add('hidden');
-            document.getElementById('emergency-instructions').classList.add('hidden');
-            document.getElementById('welcome-screen').classList.remove('hidden');
-        }
-        
-        function showEmergencyInstructions() {
-            document.getElementById('emergency-instructions').classList.remove('hidden');
-        }
-        
-        function hideEmergencyInstructions() {
-            document.getElementById('emergency-instructions').classList.add('hidden');
-        }
-        
-        function notifyEmergencyContacts() {
-            alert("Emergency contacts have been notified via SMS and email.");
-        }
-        
-        // Feedback Functions
-        function showFeedbackModal() {
-            document.getElementById('feedback-modal').classList.remove('hidden');
-        }
-        
-        function hideFeedbackModal() {
-            document.getElementById('feedback-modal').classList.add('hidden');
-        }
-        
-        function showFeedbackSuccessModal() {
-            document.getElementById('feedback-success-modal').classList.remove('hidden');
-        }
-        
-        function hideFeedbackSuccessModal() {
-            document.getElementById('feedback-success-modal').classList.add('hidden');
-        }
-        
-        function submitFeedback() {
-            const comment = document.getElementById('feedback-comment').value;
-            
-            // In a real app, you would send this data to your server
-            console.log("Feedback submitted:", {
-                rating: selectedRating,
-                comment: comment,
-                timestamp: new Date().toISOString()
-            });
-            
-            // Show success message
-            hideFeedbackModal();
-            showFeedbackSuccessModal();
-            
-            // Reset form
-            setRating(0);
-            document.getElementById('feedback-comment').value = '';
-        }
+      }
+
+      // Populate Patient Data
+      function populatePatientData(patientData) {
+        document.getElementById("patient-name").textContent = patientData.name;
+        document.getElementById("patient-age").textContent = patientData.age;
+        document.getElementById("patient-gender").textContent = patientData.gender;
+        document.getElementById("patient-blood").textContent = patientData.bloodType;
+        document.getElementById("patient-address").textContent = patientData.address;
+        document.getElementById("patient-condition").textContent = patientData.condition;
+        document.getElementById("patient-diagnosis").textContent = patientData.diagnosis;
+        document.getElementById("patient-allergies").textContent = patientData.allergies;
+        document.getElementById("patient-medications").textContent =
+          patientData.medications;
+        document.getElementById("patient-procedures").textContent =
+          patientData.procedures;
+        document.getElementById("patient-physician").textContent = patientData.physician;
+        document.getElementById("patient-clinic").textContent = patientData.clinic;
+        document.getElementById("last-updated").textContent = patientData.lastUpdated;
+
+        // Populate emergency contacts
+        document.getElementById("contact-spouse").textContent =
+          patientData.contacts[0].replace("Spouse: ", "");
+        document.getElementById("contact-son").textContent =
+          patientData.contacts[1].replace("Son: ", "");
+        document.getElementById("contact-daughter").textContent =
+          patientData.contacts[2].replace("Daughter: ", "");
+        document.getElementById("contact-neighbor").textContent =
+          patientData.contacts[3].replace("Neighbor: ", "");
+
+        // Set emergency instructions data
+        document.getElementById("emergency-condition").textContent =
+          patientData.emergencyInstructions.condition;
+        document.getElementById("emergency-instructions-text").textContent =
+          patientData.emergencyInstructions.instructions;
+        document.getElementById("allergy-warning-text").textContent =
+          patientData.emergencyInstructions.allergyWarning;
+        document.getElementById("medication-notes-text").textContent =
+          patientData.emergencyInstructions.medicationNotes;
+      }
+
+      // Navigation Functions
+      function backToWelcome() {
+        document.getElementById("medical-info-page").classList.add("hidden");
+        document.getElementById("user-type-page").classList.add("hidden");
+        document.getElementById("concerned-citizen-page").classList.add("hidden");
+        document.getElementById("location-success-page").classList.add("hidden");
+        document.getElementById("emergency-instructions").classList.add("hidden");
+        document.getElementById("welcome-screen").classList.remove("hidden");
+      }
+
+      function showEmergencyInstructions() {
+        document.getElementById("emergency-instructions").classList.remove("hidden");
+      }
+
+      function hideEmergencyInstructions() {
+        document.getElementById("emergency-instructions").classList.add("hidden");
+      }
+
+      function notifyEmergencyContacts() {
+        alert("Emergency contacts have been notified via SMS and email.");
+      }
+
+      // Feedback Functions
+      function showFeedbackModal() {
+        document.getElementById("feedback-modal").classList.remove("hidden");
+      }
+
+      function hideFeedbackModal() {
+        document.getElementById("feedback-modal").classList.add("hidden");
+      }
+
+      function showFeedbackSuccessModal() {
+        document.getElementById("feedback-success-modal").classList.remove("hidden");
+      }
+
+      function hideFeedbackSuccessModal() {
+        document.getElementById("feedback-success-modal").classList.add("hidden");
+      }
+
+      function submitFeedback() {
+        const comment = document.getElementById("feedback-comment").value;
+
+        // In a real app, you would send this data to your server
+        console.log("Feedback submitted:", {
+          rating: selectedRating,
+          comment: comment,
+          timestamp: new Date().toISOString(),
+        });
+
+        // Show success message
+        hideFeedbackModal();
+        showFeedbackSuccessModal();
+
+        // Reset form
+        setRating(0);
+        document.getElementById("feedback-comment").value = "";
+      }
     </script>
-</body>
+  </body>
 </html>
